@@ -138,6 +138,57 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      var startColIndex = majorDiagonalColumnIndexAtFirstRow;
+      // create a board matrix 
+      var board = this.rows();
+      // find n 
+      var n = board.length;
+      // define "down one right one" function
+      var doro = function(row, col) {
+        return board[row][col];
+      };
+
+      // if startIndex === n-1, return false
+      if (startColIndex === n - 1) {
+        return false;
+      }
+      // startIndex !== 0
+      
+      // start at (startIndex, 0)
+
+      var counter = 0;
+      var startRowIndex = 0;
+      // DORO and add that value to counter n-startIndex-1 times
+      for (var i = startColIndex; i <= n - 1; i++) {
+        counter += doro(startRowIndex, i);
+        startRowIndex++;
+      }
+      if (counter > 1) {
+        return true;
+      }
+
+      // if counter is greter than 1 return true;
+
+      // if startIndex = 0
+        // DORO n-1 times and add that value to counter
+        //if counter is greater than 1 return true
+
+
+
+
+
+      //case . . .
+
+      // find n
+
+      // create counter 
+      
+      // for every column 1 to column n-2
+
+      // add rowindex = , columIndex = 0
+
+
+
       return false; // fixme
     },
 
