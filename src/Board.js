@@ -143,29 +143,37 @@
       var board = this.rows();
       // find n 
       var n = board.length;
-      // define "down one right one" function
-      var doro = function(row, col) {
-        return board[row][col];
+
+      // define "down one right one" function that takes in
+      // the starting row and col indeces and checks to see if there is a conflict
+      var doro = function(rowIndex, colIndex) {
+        var counter = 0;
+        for (var i = colIndex; i <= n - 1; i++) {
+          counter += board[rowIndex][i];
+          rowIndex++;
+        }
+        if (counter > 1) {
+          return true;
+        }
+        return false;
       };
 
-      // if startIndex === n-1, return false
+      // CASES FOR startColIndex
+
+      // if startIndex === n-1, return false 
+      // since it's the last column with no competing diagonals
       if (startColIndex === n - 1) {
         return false;
       }
-      // startIndex !== 0
-      
+
+      // if startColIndex > 0
+      if (startColIndex > 0) {
+        return doro(0, startColIndex);
+      }
+
       // start at (startIndex, 0)
 
-      var counter = 0;
-      var startRowIndex = 0;
       // DORO and add that value to counter n-startIndex-1 times
-      for (var i = startColIndex; i <= n - 1; i++) {
-        counter += doro(startRowIndex, i);
-        startRowIndex++;
-      }
-      if (counter > 1) {
-        return true;
-      }
 
       // if counter is greter than 1 return true;
 
