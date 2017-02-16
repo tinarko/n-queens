@@ -149,6 +149,7 @@
       var doro = function(rowIndex, colIndex) {
         var counter = 0;
         for (var i = colIndex; i <= n - 1; i++) {
+          console.log(rowIndex, i);
           counter += board[rowIndex][i];
           rowIndex++;
         }
@@ -158,19 +159,35 @@
         return false;
       };
 
+      var doro2 = function(rowIndex, colIndex) {
+        var counter = 0;
+        for (var i = rowIndex; i <= n - 1; i++) {
+          //console.log(rowIndex, i);
+          counter += board[i][colIndex];
+          colIndex++;
+        }
+        if (counter > 1) {
+          return true;
+        }
+        return false;
+      };
       // CASES FOR startColIndex
 
+      // CASE 1: 
       // if startIndex === n-1, return false 
       // since it's the last column with no competing diagonals
       if (startColIndex === n - 1) {
         return false;
       }
 
-      // if startColIndex > 0
+      // CASE 2:
+      // if startColIndex > 0, check its diagonals
       if (startColIndex > 0) {
         return doro(0, startColIndex);
       }
 
+      // CASE 3:
+      // if startColIndex === 0
       // start at (startIndex, 0)
 
       // DORO and add that value to counter n-startIndex-1 times
@@ -178,6 +195,14 @@
       // if counter is greter than 1 return true;
 
       // if startIndex = 0
+      if (startColIndex === 0) {
+        for (var j = 0; j < n - 2; j++) {
+          if (doro2(j, 0)) {
+            return true;
+          }
+        }
+        return false;
+      }
         // DORO n-1 times and add that value to counter
         //if counter is greater than 1 return true
 
