@@ -133,6 +133,7 @@
 
 
 
+
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
@@ -189,7 +190,7 @@
       // if startColIndex === 0
 
       if (startColIndex === 0) {
-        for (var j = 0; j < n - 2; j++) {
+        for (var j = 0; j < n - 1; j++) {
           if (doro2(j, 0)) {
             return true;
           }
