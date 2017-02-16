@@ -203,31 +203,20 @@
         }
         return false;
       }
-        // DORO n-1 times and add that value to counter
-        //if counter is greater than 1 return true
-
-
-
-
-
-      //case . . .
-
-      // find n
-
-      // create counter 
-      
-      // for every column 1 to column n-2
-
-      // add rowindex = , columIndex = 0
-
-
 
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var board = this.rows();
+      var hasDConflict = false;
+      for (var i = 0; i < board.length; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          hasDConflict = true;
+        }
+      }
+      return hasDConflict;// fixme
     },
 
 
@@ -237,13 +226,88 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      var startColIndex = minorDiagonalColumnIndexAtFirstRow;
+      // create a board matrix 
+      var board = this.rows();
+      // find n 
+      var n = board.length;
+
+      // define "down one right one" function that takes in
+      // the starting row and col indeces and checks to see if there is a conflict
+      var doro = function(rowIndex, colIndex) {
+        var counter = 0;
+        for (var i = colIndex; i >= 0; i--) {
+          console.log(rowIndex, i);
+          counter += board[rowIndex][i];
+          rowIndex++;
+        }
+        if (counter > 1) {
+          return true;
+        }
+        return false;
+      };
+
+      var doro2 = function(rowIndex, colIndex) {
+        var counter = 0;
+        for (var i = rowIndex; i <= n - 1; i++) {
+          //console.log(rowIndex, i);
+          counter += board[i][colIndex];
+          colIndex--;
+        }
+        if (counter > 1) {
+          return true;
+        }
+        return false;
+      };
+      // CASES FOR startColIndex
+
+      // CASE 1: 
+      // if startIndex === n-1, return false 
+      // since it's the last column with no competing diagonals
+      if (startColIndex === 0) {
+        return false;
+      }
+
+      // CASE 2:
+      // if startColIndex > 0, check its diagonals
+      if (startColIndex > 0) {
+        return doro(0, startColIndex);
+      }
+
+      // CASE 3:
+      // if startColIndex === 0
+      // start at (startIndex, 0)
+
+      // DORO and add that value to counter n-startIndex-1 times
+
+      // if counter is greter than 1 return true;
+
+      // if startIndex = 0
+      if (startColIndex === n - 1) {
+        for (var j = 0; j < n - 2; j++) {
+          if (doro2(j, n - 1)) {
+            return true;
+          }
+        }
+        return false;
+      }
+
       return false; // fixme
     },
 
+
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
-    }
+      var board = this.rows();
+      var hasDConflict = false;
+      for (var i = 0; i < board.length; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          hasDConflict = true;
+        }
+      }
+      return hasDConflict;// fixme
+    },
+
 
     /*--------------------  End of Helper Functions  ---------------------*/
 
