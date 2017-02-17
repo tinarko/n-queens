@@ -27,7 +27,7 @@ window.findNRooksSolution = function(n) {
     if (rookNum === n) {
 
       //solution = board
-      return board.attributes; 
+      return board.rows(); 
     // continue if: rookNum < n
     } else {
       //toggle rook at location(rowIndex, colIndex)
@@ -35,7 +35,9 @@ window.findNRooksSolution = function(n) {
       // if valid rook: !hasAnyRowConflicts && !hasAnyColConflicts
       if (!board.hasAnyRooksConflicts()) {
         // increment rookNum
-        rookNum += 1;        
+        rookNum += 1; 
+
+
       // else
       } else {
         //toggle rook
