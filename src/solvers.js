@@ -62,9 +62,6 @@ window.findNRooksSolution = function(n) {
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   
   return solution;
-  // call recursive function
-
-  // return solution;
 };
 
 window.incrementIndex = function(rowIndex, colIndex, n) {
@@ -80,7 +77,7 @@ window.incrementIndex = function(rowIndex, colIndex, n) {
   return [rowIndex, colIndex];
 };
 
-// return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
+//return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0; //fixme
   var newBoard = new Board({n: n});
@@ -127,16 +124,139 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
 
+  var newBoard = new Board({n: n});
+  // var addQueenCalled = 0;
+  // create a function called addRook(board, rookNum, rowIndex, colIndex)
+  var addQueen = function (board, queenNum, rowIndex, colIndex) {
+    // addQueenCalled += 1;
+    // console.log('addQueenCalled: ' + addQueenCalled);
+    //base case: rookNum = n
+
+
+
+    if (queenNum === n) {
+      //solution = board
+      return board.rows(); 
+    }
+
+    if (rowIndex > n - 1) {
+      return;
+    } else {
+      //toggle rook at location(rowIndex, colIndex)
+      board.togglePiece(rowIndex, colIndex);
+      // if valid rook: !hasAnyRowConflicts && !hasAnyColConflicts
+      if (!board.hasAnyQueensConflicts()) {
+        queenNum += 1; 
+        // increment rookNum
+        var newIndices = this.incrementIndex(rowIndex, colIndex, n);      //
+        var firstIt = addQueen(board, queenNum, newIndices[0], newIndices[1]);
+        if (firstIt) {
+          return firstIt;
+        }
+        //delete existing rook & start a new
+        board.togglePiece(rowIndex, colIndex);
+        queenNum--;
+        return addQueen(board, queenNum, newIndices[0], newIndices[1]);    
+      } else {
+        //toggle rook
+        board.togglePiece(rowIndex, colIndex);
+        var newIndices = this.incrementIndex(rowIndex, colIndex, n);
+        return addQueen(board, queenNum, newIndices[0], newIndices[1]);
+      }
+
+    //end insert
+
+      // //toggle rook at location(rowIndex, colIndex)
+      // board.togglePiece(rowIndex, colIndex);
+
+      // //console.log(board.rows());
+      // // if valid queen: 
+      // if (!board.hasAnyQueensConflicts()) {
+      //   // increment rookNum
+      //   queenNum += 1; 
+      //   console.log(rowIndex, colIndex, queenNum);
+      // // else
+      // } else {
+      //   //toggle queen
+      //   board.togglePiece(rowIndex, colIndex);
+      // } 
+      // find next available location / update row and col values   
+      //var newIndices = this.incrementIndex(rowIndex, colIndex, n);
+    }  
+    return addQueen(board, queenNum, newIndices[0], newIndices[1]);
+    // recusive call (board, rookNum, rowIndex, colIndex)
+  };
+  // if (n < 3 || n === 5 ) {
+  var solution = addQueen(newBoard, 0, 0, 0);
+  // } else if (n === 6) {
+  //   var solution = addQueen(newBoard, 0, 0, 4);
+  // } else {
+  //   var solution = addQueen(newBoard, 0, 0, 1);
+  // }
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
 
+
+
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  
+  var solutionCount = 0; 
+
+  var newBoard = new Board({n: n});
+  // create a function called addRook(board, rookNum, rowIndex, colIndex)
+  var addQueen = function (board, queenNum, rowIndex, colIndex) {
+    if (queenNum === n) {
+      solutionCount++;
+      return;
+    }
+    if (rowIndex > n - 1) {
+      return;
+    //base case: rookNum = n
+    // continue if: rookNum < n
+    } else {
+      //toggle rook at location(rowIndex, colIndex)
+      board.togglePiece(rowIndex, colIndex);
+      // if valid rook: !hasAnyRowConflicts && !hasAnyColConflicts
+      if (!board.hasAnyQueensConflicts()) {
+        // increment rookNum
+        queenNum += 1; 
+        var newIndices = this.incrementIndex(rowIndex, colIndex, n);      //
+        addQueen(board, queenNum, newIndices[0], newIndices[1]);
+        //delete existing rook & start a new
+        board.togglePiece(rowIndex, colIndex);
+        queenNum--;
+        addQueen(board, queenNum, newIndices[0], newIndices[1]);    
+      } else {
+        //toggle rook
+        board.togglePiece(rowIndex, colIndex);
+        var newIndices = this.incrementIndex(rowIndex, colIndex, n);
+        addQueen(board, queenNum, newIndices[0], newIndices[1]);
+      } 
+    }  
+    // recusive call (board, rookNum, rowIndex, colIndex)
+  };
+  addQueen(newBoard, 0, 0, 0);
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
